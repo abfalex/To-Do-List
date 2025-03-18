@@ -22,8 +22,9 @@ function renderTasks() {
 function createTask(task) {
     const taskElement = document.createElement("div");
     taskElement.classList.add("task");
+    if (task.status) taskElement.classList.add("completed");
     taskElement.innerHTML = `
-        <div class="task-header">
+    <div class="task-header">
         <input type="checkbox" class="task-status" ${task.status ? "checked" : ""}>
             <h3 class="task-title-content">${task.title}</h3>
             <button class="edit-task">Edit</button>
@@ -31,6 +32,7 @@ function createTask(task) {
         </div>
         <p class="task-description-content">${task.description}</p>
     `;
+    
 
     const deleteButton = taskElement.querySelector(".delete-task");
     deleteButton.addEventListener("click", () => deleteTask(task.id));
@@ -39,7 +41,7 @@ function createTask(task) {
     editButton.addEventListener("click", () => editTask(task.id));
 
     const statusCheckbox = taskElement.querySelector(".task-status");
-    statusCheckbox.addEventListener("click", () => toggleTaskStatus(task.id));
+    statusCheckbox.addEventListener("click", () => toggleTaskStatus(task.id, taskElement));
 
     taskList.append(taskElement);
 }
@@ -74,9 +76,11 @@ function editTask(taskId) {
     }
 }
 
-function toggleTaskStatus(taskId) {
+function toggleTaskStatus(taskId, taskElement) {
     const task = tasks.find(t => t.id === taskId);
     task.status = !task.status;
+    if (task.status) taskElement.classList.add("completed");
+    else taskElement.classList.remove("completed");
     saveTasks();
     renderTasks();
 }

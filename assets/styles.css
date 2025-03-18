@@ -56,8 +56,9 @@
     margin-top: 10px;
 }
 
-.task:checked {
-    background-color: #008000;
+.task.completed {
+    background-color: #9bda9b;
+    border-color: #5bbf5b;
 }
 
 .task-status {
